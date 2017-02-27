@@ -10,12 +10,13 @@ mytime = tic;
 % Place a transmitter at [-1,1], a receiver at [1,-1] and a second receiver
 % at [1,1]. The transmitter performs a sector sweep while both receivers are
 % oriented towards the transmitter
-tx_set = sweepingTransceiver([-1,1], 60, 64);
-rx_set = [	sweepingTransceiver([1,1],60,1, angle2Points([1,-1],[-1,1])); ...
-			sweepingTransceiver([1,-1],60,1, angle2Points([1,1],[-1,1]))];
+tx_set = sweepingTransceiver([-1,1], 60, 64);   %[-1,1] axis, 60, beam width; 64,sectors.
+rx_set = [	sweepingTransceiver([1,1],60,1, angle2Points([1,1],[-1,1])); ...
+			sweepingTransceiver([1,-1],60,1, angle2Points([1,-1],[-1,1]))];
 
 % Trace the channels
-[trace, tr_ccomps] = ch_trace( tx_set, rx_set, [4.5, 3, 3], 'max_refl',4);
+obstacles=[0, 0, 0.1,0.5, deg2rad(45),1;-1, -1, 0.1,0.5, 0,1]
+[trace, tr_ccomps] = ch_trace( tx_set, rx_set, [4.5, 3, 3], 'max_refl',1,'obstacles',obstacles);
 
 toc(mytime);
 
